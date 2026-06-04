@@ -205,16 +205,6 @@ streamlit run app/streamlit_app.py
 
 ---
 
-## 👥 팀원
-
-| 이름 | 역할 |
-|------|------|
-| - | 말풍선 탐지 / 세그멘테이션 |
-| - | OCR / 번역 파이프라인 |
-| - | 텍스트 피팅 / UI 개발 |
-
----
-
 ## 📄 라이선스
 
 This project is licensed under the MIT License.
