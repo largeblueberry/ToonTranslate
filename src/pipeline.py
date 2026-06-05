@@ -23,7 +23,7 @@ class TranslationPipeline:
             })
         return pipeline_data
 
-    def render_image(self, image: Image.Image, pipeline_data, bg_color=(255, 255, 255), text_color=(0, 0, 0), font_size_limit=30):
+    def render_image(self, image: Image.Image, pipeline_data, bg_color=(255, 255, 255), text_color=(0, 0, 0), font_size_limit=50):
         edited_image = image.copy()
 
         # 모든 텍스트 영역을 먼저 다 지운다
