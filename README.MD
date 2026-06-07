@@ -37,12 +37,29 @@
 
 > 테스트 이미지 출처: [AI Hub](https://buly.kr/28vbxs7)
 
-
 | 원본 이미지 | 번역 및 식자 결과 |
 |:-----------:|:----------------:|
 | ![원본](result/ST091257.JPEG) | ![결과](result/result1.png) |
+| ![원본](result/ST091253.JPEG) | ![결과](result/result2.png) |
 
-> ※ result 폴더의 `result1.png` 참고
+---
+
+## ⚠️ 한계점 및 향후 개선 방향
+
+> 아래는 현재 파이프라인이 처리하지 못하는 케이스입니다.  
+> 실제 테스트 중 발견된 실패 사례를 분석하여 개선 방향을 정리했습니다.
+
+| 원본 이미지 | 처리 결과 | 문제 |
+|:-----------:|:---------:|:----:|
+| ![원본](result/ST091258.JPEG) | ![결과](result/result_fail1.png) | 인접 말풍선 병합 실패 + 텍스트 누락 |
+
+### 원인 분석
+
+| 케이스 | 원인 | 개선 방향 |
+|--------|------|-----------|
+| 구름형(삐죽) 말풍선 | 불규칙한 윤곽으로 인해 박스 탐지 범위 벗어남 | 말풍선 contour 기반 개별 탐지 도입 |
+| 인접한 복수 말풍선 | `dilate` 커널이 두 박스를 하나로 연결 → 한 말풍선만 처리됨 | 거리 임계값 튜닝 및 말풍선 단위 분리 로직 필요 |
+| 작은 폰트 텍스트 | 저해상도 영역에서 EasyOCR 인식률 저하 | 해상도 업스케일(Super Resolution) 전처리 추가 |
 
 ---
 
@@ -85,7 +102,12 @@ BubbleFit/
 ├── app/
 │   └── streamlit_app.py      # Streamlit 데모 앱
 ├── result/
-│   └── result1.png           # 결과 예시 이미지
+│   ├── ST091257.JPEG         # 테스트 원본 이미지 1
+│   ├── ST091253.JPEG         # 테스트 원본 이미지 2
+│   ├── ST091258.JPEG         # 실패 케이스 원본
+│   ├── result1.png           # 결과 이미지 1
+│   ├── result2.png           # 결과 이미지 2
+│   └── result_fail1.png      # 실패 케이스 결과
 └── README.md
 ```
 
@@ -154,8 +176,8 @@ BubbleFit/
 
 ### 1. 저장소 클론
 ```bash
-git clone https://github.com/YOUR_USERNAME/BubbleFit.git
-cd BubbleFit
+git clone https://github.com/largeblueberry/ToonTranslate.git
+cd ToonTranslate
 ```
 
 ### 2. 가상환경 설정
@@ -183,4 +205,4 @@ streamlit run app/streamlit_app.py
 - [OpenCV](https://opencv.org/)
 - [deep-translator](https://github.com/nidhaloff/deep-translator)
 - [DeepL API](https://www.deepl.com/docs-api)
-- [AI Hub - 웹툰 데이터셋](https://buly.kr/28vbxs7) 
+- [AI Hub - 웹툰 데이터셋](https://buly.kr/28vbxs7)
